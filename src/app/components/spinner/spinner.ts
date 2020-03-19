@@ -1,6 +1,6 @@
 import {NgModule,Component,ElementRef,AfterViewInit,Input,Output,EventEmitter,forwardRef,ViewChild, ChangeDetectorRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {InputTextModule} from '../inputtext/inputtext';
+import {InputTextModule} from 'primeng/inputtext';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 export const SPINNER_VALUE_ACCESSOR: any = {
@@ -13,15 +13,15 @@ export const SPINNER_VALUE_ACCESSOR: any = {
     selector: 'p-spinner',
     template: `
         <span class="ui-spinner ui-widget ui-corner-all">
-            <input #inputfield type="text" [attr.id]="inputId" [value]="formattedValue||null" [attr.name]="name"
+            <input #inputfield type="text" [attr.id]="inputId" [value]="formattedValue||null" [attr.name]="name" [attr.aria-valumin]="min" [attr.aria-valuemax]="max" [attr.aria-valuenow]="value" [attr.aria-labelledby]="ariaLabelledBy"
             [attr.size]="size" [attr.maxlength]="maxlength" [attr.tabindex]="tabindex" [attr.placeholder]="placeholder" [disabled]="disabled" [readonly]="readonly" [attr.required]="required"
             (keydown)="onInputKeydown($event)" (blur)="onInputBlur($event)" (input)="onInput($event)" (change)="onInputChange($event)" (focus)="onInputFocus($event)"
             [ngStyle]="inputStyle" [class]="inputStyleClass" [ngClass]="'ui-spinner-input ui-inputtext ui-widget ui-state-default ui-corner-all'">
-            <button type="button" [ngClass]="{'ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}" [disabled]="disabled||readonly" [attr.tabindex]="tabindex" [attr.readonly]="readonly"
+            <button type="button" [ngClass]="{'ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}" [disabled]="disabled||readonly" tabindex="-1" [attr.readonly]="readonly"
                 (mouseleave)="onUpButtonMouseleave($event)" (mousedown)="onUpButtonMousedown($event)" (mouseup)="onUpButtonMouseup($event)">
                 <span class="ui-spinner-button-icon pi pi-caret-up ui-clickable"></span>
             </button>
-            <button type="button" [ngClass]="{'ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}" [disabled]="disabled||readonly" [attr.tabindex]="tabindex" [attr.readonly]="readonly"
+            <button type="button" [ngClass]="{'ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}" [disabled]="disabled||readonly" tabindex="-1" [attr.readonly]="readonly"
                 (mouseleave)="onDownButtonMouseleave($event)" (mousedown)="onDownButtonMousedown($event)" (mouseup)="onDownButtonMouseup($event)">
                 <span class="ui-spinner-button-icon pi pi-caret-down ui-clickable"></span>
             </button>
@@ -65,6 +65,8 @@ export class Spinner implements AfterViewInit,ControlValueAccessor {
 
     @Input() name: string;
 
+    @Input() ariaLabelledBy: string;
+
     @Input() inputStyle: any;
 
     @Input() inputStyleClass: string;
@@ -101,19 +103,15 @@ export class Spinner implements AfterViewInit,ControlValueAccessor {
 
     thousandRegExp: RegExp;
     
-    @ViewChild('inputfield', { static: false }) inputfieldViewChild: ElementRef;
+    @ViewChild('inputfield', { static: true }) inputfieldViewChild: ElementRef;
     
     constructor(public el: ElementRef, public cd: ChangeDetectorRef) {}
 
-    @Input() set type(value: string) {
-        console.warn("type property is removed as Spinner does not format the value anymore");
-    }
-
     ngAfterViewInit() {
-        if(this.value && this.value.toString().indexOf('.') > 0) {
+        if (this.value && this.value.toString().indexOf('.') > 0) {
             this.precision = this.value.toString().split(/[.]/)[1].length;
         }
-        else if(this.step % 1 !== 0) {
+        else if (this.step % 1 !== 0) {
             // If step is not an integer then extract the length of the decimal part
             this.precision = this.step.toString().split(/[,]|[.]/)[1].length;
         }

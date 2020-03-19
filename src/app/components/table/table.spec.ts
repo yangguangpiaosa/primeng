@@ -1,16 +1,14 @@
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Table, TableBody, ScrollableView, SortableColumn, SelectableRow, RowToggler, ContextMenuRow, ResizableColumn, ReorderableColumn, EditableColumn, CellEditor, SortIcon, TableRadioButton, TableCheckbox, TableHeaderCheckbox, ReorderableRowHandle, ReorderableRow, SelectableRowDblClick, TableModule } from './table';
+import { Table, TableModule } from './table';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Component } from '@angular/core';
-import { Paginator } from '../paginator/paginator';
-import {Dropdown, DropdownItem, DropdownModule} from '../dropdown/dropdown';
+import { DropdownModule} from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
-import { SharedModule } from '../common/shared';
-import { ContextMenu, ContextMenuSub, ContextMenuModule } from '../contextmenu/contextmenu';
+import { SharedModule } from 'primeng/api';
+import { ContextMenu, ContextMenuModule } from 'primeng/contextmenu';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TooltipModule } from '../tooltip/tooltip';
 
 @Component({
     template: `
@@ -52,7 +50,7 @@ import { TooltipModule } from '../tooltip/tooltip';
     <p-table class="filterTable" #dt [columns]="cols" [value]="cars">
         <ng-template pTemplate="caption">
             <div style="text-align: right">        
-                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
                 <input type="text" class="globalFilter" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
             </div>
         </ng-template>
@@ -291,7 +289,7 @@ import { TooltipModule } from '../tooltip/tooltip';
         <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
             <tr [pReorderableRow]="index">
                 <td>
-                    <i class="fa fa-bars" pReorderableRowHandle></i>
+                    <i class="pi pi-bars" pReorderableRowHandle></i>
                 </td>
                 <td *ngFor="let col of columns">
                     {{rowData[col.field]}}

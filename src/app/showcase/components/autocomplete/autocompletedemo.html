@@ -71,13 +71,9 @@ export class AutoCompleteDemo &#123;
 </code>
 </pre>
 
-            <h3>Change Detection</h3>
-            <p>AutoComplete either uses setter based checking or ngDoCheck to realize if the suggestions has changed to update the UI. This is configured using the immutable
-                property, when enabled (default) setter based detection is utilized so your changes such as adding or removing a record
+            <h3>Change Detection of Suggestions</h3>
+            <p>AutoComplete uses setter based checking to realize if the suggestions has changed to update the UI. In order this to work, your changes such as adding or removing a record
                 should always create a new array reference instead of manipulating an existing array as Angular does not trigger setters if the reference does not change.
-                For example, use slice instead of splice when removing an item or use spread operator instead of push method when adding an item. On the other hand, setting immutable property to false removes
-                this restriction by using ngDoCheck with IterableDiffers to listen changes without the need to create a new reference of data. Setter based method is faster however
-                both methods can be used depending on your preference.
             </p>
 
             <p>Note that if no suggestions are available after searching, provide an empty array instead of a null value.</p>
@@ -528,6 +524,16 @@ export class AutoCompleteDemo &#123;
                             <td>event: browser event</td>
                             <td>Callback to invoke when input field is cleared.</td>
                         </tr>
+                        <tr>
+                            <td>onShow</td>
+                            <td>event: Animation event</td>
+                            <td>Callback to invoke when autocomplete overlay gets visible.</td>
+                        </tr>
+                        <tr>
+                            <td>onHide</td>
+                            <td>event: Animation event</td>
+                            <td>Callback to invoke when autocomplete overlay gets hidden.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -585,7 +591,6 @@ export class AutoCompleteDemo &#123;
 
         <p-tabPanel header="Source">
             <a href="https://github.com/primefaces/primeng/tree/master/src/app/showcase/components/autocomplete" class="btn-viewsource" target="_blank">
-                <i class="fa fa-github"></i>
                 <span>View on GitHub</span>
             </a>
 <pre>
@@ -658,7 +663,7 @@ export class AutoCompleteDemo &#123;
         let filtered : any[] = [];
         for(let i = 0; i < countries.length; i++) &#123;
             let country = countries[i];
-            if(country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) &#123;
+            if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) &#123;
                 filtered.push(country);
             &#125;
         &#125;
@@ -669,7 +674,7 @@ export class AutoCompleteDemo &#123;
         this.filteredBrands = [];
         for(let i = 0; i < this.brands.length; i++) &#123;
             let brand = this.brands[i];
-            if(brand.toLowerCase().indexOf(event.query.toLowerCase()) == 0) &#123;
+            if (brand.toLowerCase().indexOf(event.query.toLowerCase()) == 0) &#123;
                 this.filteredBrands.push(brand);
             &#125;
         &#125;

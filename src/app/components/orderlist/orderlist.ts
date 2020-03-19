@@ -1,10 +1,10 @@
 import {NgModule,Component,ElementRef,AfterViewChecked,AfterContentInit,Input,Output,ContentChildren,QueryList,TemplateRef,EventEmitter,ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ButtonModule} from '../button/button';
-import {SharedModule,PrimeTemplate} from '../common/shared';
-import {DomHandler} from '../dom/domhandler';
-import {ObjectUtils} from '../utils/objectutils';
-import { FilterUtils } from '../utils/filterutils';
+import {ButtonModule} from 'primeng/button';
+import {SharedModule,PrimeTemplate} from 'primeng/api';
+import {DomHandler} from 'primeng/dom';
+import {ObjectUtils} from 'primeng/utils';
+import { FilterUtils } from 'primeng/utils';
 
 @Component({
     selector: 'p-orderList',
@@ -30,7 +30,7 @@ import { FilterUtils } from '../utils/filterutils';
                         <li class="ui-orderlist-item" tabindex="0"
                             [ngClass]="{'ui-state-highlight':isSelected(item)}" 
                             (click)="onItemClick($event,item,i)" (touchend)="onItemTouchEnd($event)" (keydown)="onItemKeydown($event,item,i)"
-                            [style.display]="isItemVisible(item) ? 'block' : 'none'"
+                            [style.display]="isItemVisible(item) ? 'block' : 'none'" role="option" [attr.aria-selected]="isSelected(item)"
                             [draggable]="dragdrop" (dragstart)="onDragStart($event, i)" (dragend)="onDragEnd($event)">
                             <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: item, index: i}"></ng-container>
                         </li>
@@ -78,7 +78,7 @@ export class OrderList implements AfterViewChecked,AfterContentInit {
     
     @Output() onFilterEvent: EventEmitter<any> = new EventEmitter();
     
-    @ViewChild('listelement', { static: false }) listViewChild: ElementRef;
+    @ViewChild('listelement', { static: true }) listViewChild: ElementRef;
     
     @ContentChildren(PrimeTemplate) templates: QueryList<any>;
     

@@ -3,7 +3,7 @@ import { trigger,state,style,transition,animate,AnimationEvent } from '@angular/
 import { DynamicDialogContent } from './dynamicdialogcontent';
 import { DynamicDialogConfig } from './dynamicdialog-config';
 import { CommonModule } from '@angular/common';
-import { DomHandler } from '../dom/domhandler';
+import { DomHandler } from 'primeng/dom';
 import { DynamicDialogRef } from './dynamicdialog-ref';
 
 @Component({
@@ -16,9 +16,11 @@ import { DynamicDialogRef } from './dynamicdialog-ref';
 			[style.width]="config.width" [style.height]="config.height">
             <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top" *ngIf="config.showHeader === false ? false: true">
                 <span class="ui-dialog-title">{{config.header}}</span>
-                <a [ngClass]="'ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all'" tabindex="0" role="button" (click)="close()" (keydown.enter)="close()" *ngIf="config.closable === false ? false : true">
-                    <span class="pi pi-times"></span>
-                </a>
+                <div class="ui-dialog-titlebar-icons">
+                    <a [ngClass]="'ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all'" tabindex="0" role="button" (click)="close()" (keydown.enter)="close()" *ngIf="config.closable !== false">
+                        <span class="pi pi-times"></span>
+                    </a>
+                </div>
             </div>
             <div class="ui-dialog-content ui-widget-content" [ngStyle]="config.contentStyle">
 				<ng-template pDynamicDialogContent></ng-template>
@@ -151,7 +153,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     }
     
     unbindDocumentEscapeListener() {
-        if(this.documentEscapeListener) {
+        if (this.documentEscapeListener) {
             this.documentEscapeListener();
             this.documentEscapeListener = null;
         }
